@@ -1,7 +1,8 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useInsureanceStore } from '@/stores/signature';
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, ref, watch, onMounted } from 'vue';
+
 const store = useInsureanceStore();
 const { signatureRoleType, currentRole } = storeToRefs(store);
 const navbarRef = ref(null);
@@ -23,33 +24,27 @@ function switchRoleHandler({ type }, buttonIndex) {
   store.currentRole = { index: buttonIndex, type };
   console.log(`store.currentRole => `, store.currentRole);
   store.switchRoleToButton(buttonIndex);
-  store.skipToSignPsisosition('0', 'button');
+  store.skipToSignPosition('0', 'button');
   // store.skipToSignPosition(buttonIndex[0], 'role');
 }
 
 watch(
-  () => store.stage,
+  () => signatureRoleType.value,
   () => {
     nextTick(() => {
       const el = navbarRef.value?.$el || navbarRef.value;
       if (el) {
         store.navbarHeight = el.offsetHeight;
       }
+      // alert(device.device.type);
     });
-  }
-);
-
-watch(
-  () => store.stage,
-  async () => {
-    await nextTick();
   }
 );
 </script>
 <template>
   <v-sheet
     class="py-1"
-    :class="[store.stage === 'preview' ? 'd-none' : 'd-flex']"
+    :class="[store.stage === 'preview' ? 'd-flex' : 'd-flex']"
     style="background-color: rgba(0, 0, 0, 0.8)"
     ref="navbarRef"
   >

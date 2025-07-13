@@ -185,17 +185,17 @@ export const useInsureanceStore = defineStore('insureance', () => {
     });
 
     //只有在簽名頁時，sidebar的按鈕才需要去判斷它做簽名類型(角色)切換時，它會在哪一頁的按鈕，同時並將其跳至該頁的所在的角色簽名
-    if (stage.value === 'sign1') {
-      if (unSignedIndex !== -1) {
-        skipToSignPosition(unSignedIndex.toString(), 'button')
-        currentPage.value = unSignedIndex
-      } else if (signIndex !== -1) {
-        skipToSignPosition(signIndex.toString(), 'button')
-        currentPage.value = signIndex
-      } else {
-        skipToSignPosition('0', 'button')
-      }
+
+    if (unSignedIndex !== -1) {
+      skipToSignPosition(unSignedIndex.toString(), 'button')
+      currentPage.value = unSignedIndex
+    } else if (signIndex !== -1) {
+      skipToSignPosition(signIndex.toString(), 'button')
+      currentPage.value = signIndex
+    } else {
+      skipToSignPosition('0', 'button')
     }
+
   }
 
 

@@ -16,6 +16,18 @@ const maxHeight = ref(450);
 const tipBar = ref(true);
 const showFakeSign = ref(false);
 
+function detectDevice(params) {
+  const userAgent = window.navigator.userAgent;
+  const mobilePatterns =
+    /(Windows|phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i;
+  console.log(`userAgent.match(mobilePatterns) => `, userAgent.match(mobilePatterns));
+  if (userAgent.match(mobilePatterns)) {
+    return userAgent.match(mobilePatterns)[0];
+  } else {
+    return '未偵測到設備';
+  }
+}
+
 function detectBottom(event) {
   if (!(event.target instanceof HTMLElement)) return;
   if (store.stage !== 'preview') return;
@@ -159,7 +171,7 @@ watch(
       </v-col>
       <v-col cols="11">
         <div class="d-flex bgPrimaryColor justify-space-between align-center">
-          <p class="text-grey-darken-3">要保人同意書</p>
+          <p class="text-grey-darken-3">{{ detectDevice() }}</p>
           <div class="d-flex">
             <p class="text-grey-darken-3 pr-2">總頁數10頁</p>
             <button @click="store.addPage">加頁</button>
@@ -170,9 +182,9 @@ watch(
     <v-row>
       <!-- 切換頁籤按鈕 -->
       <v-col cols="1" class="pa-0">
-        <SwitchSideBarRead v-if="store.stage === 'preview'" />
-        <SwitchSideBarSign :showFakeSign="showFakeSign" v-else />
-        <!-- <SwitchSideBarSign :showFakeSign="showFakeSign" /> -->
+        <!-- <SwitchSideBarRead v-if="store.stage === 'preview'" /> -->
+        <!-- <SwitchSideBarSign :showFakeSign="showFakeSign" v-else /> -->
+        <SwitchSideBarSign :showFakeSign="showFakeSign" />
       </v-col>
       <!-- 保書、合約書內容 -->
       <v-col cols="11">
